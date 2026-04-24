@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GCC – Global Combat Collective</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .gallery-scroll {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    function GCCWordmark() {
+      return (
+        <div className="flex items-center gap-3">
+          <img src="/assets/gcc-logo.png" alt="GCC" className="h-11 w-11 object-contain drop-shadow-[0_0_12px_rgba(45,107,255,0.5)]" />
+          <div>
+            <div className="text-[28px] font-black uppercase tracking-[0.18em] text-white">GCC</div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-300">Global Combat Collective</div>
+          </div>
+        </div>
+      );
+    }
+
+    function GCCEmblem({ compact = false }) {
+      const size = compact ? "h-[96px] w-[96px]" : "h-[300px] w-[300px]";
+      return (
+        <img
+          src="/assets/gcc-logo.png"
+          alt="Global Combat Collective"
+          className={`${size} object-contain drop-shadow-[0_0_30px_rgba(45,107,255,0.45)]`}
+        />
+      );
+    }
+
+    function SectionLabel({ children }) {
+      return (
+        <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-300">
+          {children}
+        </div>
+      );
+    }
+
+    function IconBadge({ children }) {
+      return (
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">
+          {children}
+        </div>
+      );
+    }
+
+    function BoltIcon() {
+      return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" />
+        </svg>
+      );
+    }
+
+    function GridIcon() {
+      return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+      );
+    }
+
+    function CoinsIcon() {
+      return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <ellipse cx="12" cy="6" rx="7" ry="3" />
+          <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6" />
+          <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />
+        </svg>
+      );
+    }
+
+    function ChartIcon() {
+      return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18" />
+          <path d="m7 14 4-4 3 3 5-6" />
+        </svg>
+      );
+    }
+
+    function PlayIcon() {
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4 translate-x-px" fill="currentColor" aria-hidden="true">
+          <path d="M8 5v14l11-7-11-7Z" />
+        </svg>
+      );
+    }
+
+    const galleryImages = [
+      { src: "/assets/img/gal1.jpg", caption: "Fight Night — Main Arena" },
+      { src: "/assets/img/gal2.jpg", caption: "Ringside Commentary" },
+      { src: "/assets/img/gal5.jpg", caption: "Fight Action" },
+      { src: "/assets/img/gal3.jpg", caption: "VIP Ringside" },
+      { src: "/assets/img/gal6.jpg", caption: "Championship Exchange" },
+      { src: "/assets/img/gal4.jpg", caption: "Main Event Action" },
+      { src: "/assets/img/gal7.jpg", caption: "Fighter Introduction" },
+      { src: "/assets/img/gal8.jpg", caption: "Elite Competition" },
+    ];
+
+    function GCCMicrosite() {
+      const problemItems = [
+        { icon: <BoltIcon />, title: "Event-Centric", text: "Revenue tied too heavily to one-off events without persistent monetization layers." },
+        { icon: <GridIcon />, title: "Fragmented Media", text: "Content, audience, sponsorship, and distribution often live in separate silos." },
+        { icon: <CoinsIcon />, title: "Missed Monetization", text: "Fighters and creators frequently leave audience, product, and sponsor value untapped." },
+        { icon: <ChartIcon />, title: "Hard to Scale", text: "Without channel infrastructure, growth remains dependent on isolated live moments." },
+      ];
+
+      const modelSteps = [
+        { title: "Live Events", text: "Audience, energy, and repeatable content capture environments.", tone: "from-blue-500 to-blue-700" },
+        { title: "Channel Network", text: "Every fighter becomes a media node and monetizable business unit.", tone: "from-cyan-500 to-sky-700" },
+        { title: "Film & Media", text: "Premium original content and long-term IP ownership strategy.", tone: "from-violet-500 to-purple-700" },
+        { title: "Commerce", text: "Sponsors, subscriptions, products, and direct-to-consumer conversion.", tone: "from-amber-500 to-orange-700" },
+      ];
+
+      const featureCards = [
+        { title: "Fighter Channel Infrastructure", img: "/assets/img/feat-channel.jpg", bullets: ["Official creator pages", "Live and on-demand content", "Sponsor inventory", "Community access"] },
+        { title: "Film & Media Division", img: "/assets/img/feat-media.jpg", bullets: ["Original series", "Fight library & highlights", "Branded content", "Global IP development"] },
+        { title: "Omnichannel Distribution", img: "/assets/img/feat-distribution.jpg", bullets: ["ARIA hospitality", "DIA airport networks", "Devices & OTT", "WWTC language enablement"] },
+        { title: "Sponsor & Vendor Integration", img: "/assets/img/feat-sponsor.jpg", bullets: ["Brand partnerships", "Product placement", "Affiliate & D2C commerce", "Measurable performance"] },
+      ];
+
+      const channelCards = [
+        { name: "Israel Adesanya", img: "/assets/img/ch1.jpg", stats: ["1.2M Subs", "4.8M Views", "Sponsors Active"] },
+        { name: "Alex Pereira", img: "/assets/img/ch2.jpg", stats: ["980K Subs", "3.9M Views", "Sponsors Active"] },
+        { name: "Deontay Wilder", img: "/assets/img/ch3.jpg", stats: ["860K Subs", "3.2M Views", "Sponsors Active"] },
+        { name: "Amanda Ribas", img: "/assets/img/ch4.jpg", stats: ["420K Subs", "1.6M Views", "Sponsors Active"] },
+        { name: "Vergil Ortiz Jr.", img: "/assets/img/ch5.jpg", stats: ["510K Subs", "2.1M Views", "Sponsors Active"] },
+      ];
+
+      const ecosystemBoxes = ["TPG Platform", "R.I.S.E.", "WWTC", "Global Partners"];
+      const revenueNodes = ["Live Events", "Sponsorships", "Subscriptions", "Merch & D2C", "Licensing & IP"];
+      const distributionNodes = ["GCC", "ARIA", "DIA", "Devices", "Fans"];
+
+      return (
+        <div className="min-h-screen bg-[#050c17] text-white font-sans">
+
+          {/* HEADER */}
+          <header className="sticky top-0 z-50 border-b border-white/10 bg-[#020913]/90 backdrop-blur-xl">
+            <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-8 py-4">
+              <GCCWordmark />
+              <nav className="hidden items-center gap-6 text-[12px] uppercase tracking-[0.12em] text-slate-200 lg:flex">
+                <a href="#model" className="transition hover:text-white">The Model</a>
+                <a href="#how" className="transition hover:text-white">How It Works</a>
+                <a href="#channels" className="transition hover:text-white">Channel Network</a>
+                <a href="#partners" className="transition hover:text-white">Partners</a>
+                <a href="#about" className="transition hover:text-white">About</a>
+              </nav>
+              <div className="flex items-center gap-3">
+                <a href="#partners" className="rounded-md bg-gradient-to-b from-[#4a85ff] to-[#1f5cff] px-5 py-3 text-[12px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_12px_30px_rgba(31,92,255,0.28)] transition hover:-translate-y-0.5">
+                  Partner With GCC
+                </a>
+                <a href="#channels" className="hidden rounded-md border border-white/15 bg-white/[0.02] px-5 py-3 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:bg-white/[0.05] md:inline-flex">
+                  View GCC Channel
+                </a>
+              </div>
+            </div>
+          </header>
+
+          {/* HERO */}
+          <section className="border-b border-white/10">
+            <div className="mx-auto grid min-h-[760px] max-w-[1440px] grid-cols-1 lg:grid-cols-[44%_56%]">
+              <div className="bg-[radial-gradient(circle_at_72%_18%,rgba(73,132,255,0.28),transparent_18%),radial-gradient(circle_at_82%_10%,rgba(255,255,255,0.08),transparent_12%),linear-gradient(145deg,#0f1b2c_0%,#081322_46%,#04070d_100%)] px-8 py-16 lg:py-20">
+                <div className="inline-flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.18em] text-blue-300 before:h-px before:w-9 before:bg-blue-300 before:content-['']">
+                  Operator Partner within TPG
+                </div>
+                <h1 className="mt-6 max-w-[660px] text-5xl font-black leading-none tracking-[-0.045em] md:text-7xl">
+                  A Global Combat Sports Network for Content, Commerce, and Distribution
+                </h1>
+                <p className="mt-5 max-w-[560px] text-[18px] leading-8 text-slate-300">
+                  Global Combat Collective operates within the TPG ecosystem as a combat sports media, channel, and commerce platform—connecting live events, creator channels, film and media, sponsor integrations, and omnichannel distribution into one scalable system.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <a href="#partners" className="rounded-md bg-gradient-to-b from-[#4a85ff] to-[#1f5cff] px-6 py-4 text-[12px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_12px_30px_rgba(31,92,255,0.28)] transition hover:-translate-y-0.5">
+                    Partner With GCC
+                  </a>
+                  <a href="#channels" className="rounded-md border border-white/15 bg-white/[0.02] px-6 py-4 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:bg-white/[0.05]">
+                    Explore Channel Network
+                  </a>
+                </div>
+                <div className="mt-6 flex items-center gap-3 text-sm text-slate-300">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15">
+                    <PlayIcon />
+                  </span>
+                  Watch the GCC story
+                </div>
+              </div>
+
+              {/* HERO RIGHT — full-bleed fight photo */}
+              <div className="relative overflow-hidden border-l border-white/5 min-h-[400px]">
+                <img
+                  src="/assets/img/hero-main.jpg"
+                  alt="GCC Fight Night — Fighter in the ring under the arena lights"
+                  className="absolute inset-0 h-full w-full object-cover object-top"
+                />
+                {/* gradient fade to left so text side blends */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#081322]/80 via-transparent to-transparent" />
+                {/* bottom scrim */}
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050c17]/70 to-transparent" />
+                {/* floating info card */}
+                <div className="absolute right-6 top-6 w-[240px] rounded-xl border border-white/10 bg-[linear-gradient(180deg,rgba(7,18,36,0.94),rgba(9,22,42,0.88))] p-4 shadow-[0_18px_52px_rgba(0,0,0,0.32)] backdrop-blur-sm">
+                  {[
+                    ["Global Reach", "A worldwide network of fighters, creators, partners, and fans."],
+                    ["Revenue Streams", "Events, channels, subscriptions, sponsorships, and commerce."],
+                    ["Platform Power", "Leveraging TPG's ecosystem, WWTC translation, and omnichannel reach."],
+                    ["Built for Scale", "Infrastructure designed to grow channels, IP, and long-term enterprise value."],
+                  ].map(([title, text], idx) => (
+                    <div key={title} className={idx === 0 ? "" : "mt-3 border-t border-white/10 pt-3"}>
+                      <span className="inline-block rounded-full border border-blue-400/25 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-blue-200">
+                        {title}
+                      </span>
+                      <p className="mt-1 text-[12px] leading-5 text-slate-300">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* PROBLEM */}
+          <section className="bg-[linear-gradient(180deg,#0a1422_0%,#091220_100%)]">
+            <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-8 px-8 py-11 lg:grid-cols-[31%_69%]">
+              <h2 className="text-4xl font-black leading-tight tracking-[-0.03em] md:text-[46px]">
+                The system isn't failing—it was never designed to scale.
+              </h2>
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+                {problemItems.map((item) => (
+                  <div key={item.title} className="border-l border-white/10 pl-5">
+                    <IconBadge>{item.icon}</IconBadge>
+                    <h4 className="text-lg font-bold">{item.title}</h4>
+                    <p className="mt-2 text-sm leading-7 text-slate-300">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="border-t border-white/5 px-8 py-4 text-center text-[13px] font-bold uppercase tracking-[0.12em] text-blue-300">
+              GCC exists to change that.
+            </div>
+          </section>
+
+          {/* PHOTO GALLERY — Fight Night showcase */}
+          <section className="bg-[#060e1b] border-y border-white/5">
+            <div className="mx-auto max-w-[1440px] px-8 pt-8 pb-4">
+              <div className="flex items-end justify-between mb-5">
+                <div>
+                  <SectionLabel>Live Event Production</SectionLabel>
+                  <h3 className="mt-2 text-2xl font-black tracking-[-0.02em]">
+                    Baumgardner vs Persoon — Fight Night
+                  </h3>
+                </div>
+                <span className="text-[11px] uppercase tracking-[0.18em] text-slate-400">GCC Produced Event</span>
+              </div>
+            </div>
+            <div className="gallery-scroll flex gap-3 overflow-x-auto px-8 pb-8">
+              {galleryImages.map((img, i) => (
+                <div key={i} className="flex-none w-[280px] md:w-[340px] overflow-hidden rounded-xl border border-white/10 group">
+                  <div className="relative h-[210px] md:h-[240px] overflow-hidden">
+                    <img
+                      src={img.src}
+                      alt={img.caption}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-3 left-4 text-[11px] font-bold uppercase tracking-[0.1em] text-white/0 group-hover:text-white/90 transition-all duration-300">
+                      {img.caption}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* MODEL */}
+          <section id="model" className="bg-[linear-gradient(180deg,#081425_0%,#09172a_100%)]">
+            <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-8 px-8 py-12 lg:grid-cols-[30%_70%]">
+              <div>
+                <SectionLabel>The GCC Model</SectionLabel>
+                <h2 className="mt-3 text-4xl font-black leading-tight tracking-[-0.03em] md:text-[44px]">
+                  A unified system that turns combat sports into scalable value.
+                </h2>
+                <p className="mt-4 text-base leading-8 text-slate-300">
+                  GCC integrates events, channels, media, distribution, and commerce into one persistent operating model under the TPG umbrella.
+                </p>
+                <div className="mt-6">
+                  <a href="#how" className="inline-flex rounded-md border border-white/15 bg-white/[0.02] px-5 py-3 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:bg-white/[0.05]">
+                    Explore the Model
+                  </a>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+                {modelSteps.map((step) => (
+                  <div key={step.title} className="text-center">
+                    <div className={`mx-auto mb-5 h-[94px] w-[94px] rounded-full bg-gradient-to-b ${step.tone} shadow-[0_0_0_8px_rgba(255,255,255,0.025),0_18px_40px_rgba(0,0,0,0.25)]`} />
+                    <h4 className="text-xl font-bold">{step.title}</h4>
+                    <p className="mt-2 text-sm leading-7 text-slate-300">{step.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* HOW IT WORKS */}
+          <section id="how" className="bg-[linear-gradient(180deg,#0b1626_0%,#0c1829_100%)]">
+            <div className="mx-auto max-w-[1440px] px-8 py-6">
+              <SectionLabel>How it works: integrated. coordinated. measurable.</SectionLabel>
+              <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+                {featureCards.map((card) => (
+                  <div key={card.title} className="overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(180deg,#101d31_0%,#0d182a_100%)] shadow-[0_16px_38px_rgba(0,0,0,0.18)]">
+                    <div className="h-[138px] overflow-hidden">
+                      <img
+                        src={card.img}
+                        alt={card.title}
+                        className="h-full w-full object-cover object-center"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h4 className="text-xl font-bold">{card.title}</h4>
+                      <ul className="mt-3 list-disc space-y-1 pl-5 text-sm leading-7 text-slate-300">
+                        {card.bullets.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* DISTRIBUTION + REVENUE */}
+          <section className="bg-[#091423]">
+            <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-5 px-8 py-10 lg:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,#10213a_0%,#0b1526_100%)] p-8 shadow-[0_18px_50px_rgba(0,0,0,0.32)]">
+                <SectionLabel>Distribution Ecosystem</SectionLabel>
+                <h3 className="mt-3 text-4xl font-black leading-tight tracking-[-0.03em] md:text-[38px]">
+                  One network. Multiple endpoints. Unlimited reach.
+                </h3>
+                <p className="mt-4 text-base leading-8 text-slate-300">
+                  GCC content and commerce flow across TPG-aligned touchpoints to drive access, engagement, and monetization.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-2">
+                  {distributionNodes.map((node, idx) => (
+                    <div key={node} className="flex items-center gap-2">
+                      <span className="rounded-full border border-white/15 bg-white/[0.04] px-4 py-3 text-[12px] font-bold uppercase tracking-[0.08em]">
+                        {node}
+                      </span>
+                      {idx < distributionNodes.length - 1 && (
+                        <span className="text-xl text-white/70">→</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,#101a2d_0%,#0c1628_100%)] p-8 shadow-[0_18px_50px_rgba(0,0,0,0.32)]">
+                <SectionLabel>Revenue Engine</SectionLabel>
+                <h3 className="mt-3 text-4xl font-black leading-tight tracking-[-0.03em] md:text-[38px]">
+                  Diverse. Resilient. Scalable.
+                </h3>
+                <p className="mt-4 text-base leading-8 text-slate-300">
+                  Multiple revenue layers create long-term enterprise value for fighters, creators, sponsors, and platform partners.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-2">
+                  {revenueNodes.map((node, idx) => (
+                    <div key={node} className="flex items-center gap-2">
+                      <span className="rounded-full border border-blue-400/25 bg-blue-500/10 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.08em] text-blue-200">
+                        {node}
+                      </span>
+                      {idx < revenueNodes.length - 1 && (
+                        <span className="text-xl text-white/70">→</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* CHANNELS */}
+          <section id="channels" className="bg-[#08111f]">
+            <div className="mx-auto max-w-[1440px] px-8 py-10">
+              <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+                <div>
+                  <SectionLabel>The GCC Channel Network</SectionLabel>
+                  <h3 className="mt-3 text-4xl font-black leading-tight tracking-[-0.03em] md:text-[40px]">
+                    Every fighter is a channel. Every channel is a business.
+                  </h3>
+                </div>
+                <a href="#partners" className="rounded-md bg-gradient-to-b from-[#4a85ff] to-[#1f5cff] px-5 py-3 text-[12px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_12px_30px_rgba(31,92,255,0.28)]">
+                  View All Channels
+                </a>
+              </div>
+              <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-5">
+                {channelCards.map((channel) => (
+                  <div key={channel.name} className="overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(180deg,#0f1d31_0%,#0a1526_100%)] shadow-[0_16px_34px_rgba(0,0,0,0.16)] group">
+                    <div className="h-[220px] overflow-hidden">
+                      <img
+                        src={channel.img}
+                        alt={channel.name}
+                        className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h4 className="text-xl font-bold">{channel.name}</h4>
+                      <p className="mt-1 text-[13px] text-slate-300">Official GCC Channel</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {channel.stats.map((stat) => (
+                          <span key={stat} className="rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.08em] text-blue-200">
+                            {stat}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* PARTNERS */}
+          <section id="partners" className="bg-[#0a1424]">
+            <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-5 px-8 py-10 lg:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,#101a2d_0%,#0d1729_100%)] p-7 shadow-[0_16px_36px_rgba(0,0,0,0.16)]">
+                <SectionLabel>Built within the TPG Ecosystem</SectionLabel>
+                <h3 className="mt-3 text-3xl font-black leading-tight tracking-[-0.03em] md:text-[34px]">
+                  GCC works in synergy with the broader platform.
+                </h3>
+                <p className="mt-4 text-base leading-8 text-slate-300">
+                  The GCC operating model expands TPG's sponsor, distribution, translation, and community activation capabilities.
+                </p>
+                <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
+                  {ecosystemBoxes.map((box) => (
+                    <div key={box} className="rounded-xl border border-white/10 bg-[#0e1a2d] px-4 py-5 text-center text-sm font-bold">
+                      {box}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,#101a2d_0%,#0d1729_100%)] p-7 shadow-[0_16px_36px_rgba(0,0,0,0.16)]">
+                <SectionLabel>Who Can Engage</SectionLabel>
+                <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {[
+                    ["Brands & Sponsors", "Activate across channels, content, and distribution touchpoints."],
+                    ["Investors", "Participate in a scalable channel and commerce platform."],
+                    ["Fighters & Creators", "Build your personal brand and monetize your channel."],
+                    ["Communities", "Connect content, engagement, and opportunity."],
+                  ].map(([title, text]) => (
+                    <div key={title} className="rounded-xl border border-white/10 bg-[#0d182a] p-5">
+                      <h4 className="text-xl font-bold">{title}</h4>
+                      <p className="mt-2 text-sm leading-7 text-slate-300">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section className="bg-[linear-gradient(180deg,#07101d_0%,#041021_100%)]">
+            <div className="mx-auto max-w-[1440px] px-8 py-12 text-center">
+              <h2 className="text-4xl font-black leading-tight tracking-[-0.03em] md:text-[48px]">
+                Join the Global Combat Collective Network
+              </h2>
+              <p className="mt-3 text-[18px] text-slate-300">Partner. Create. Distribute. Earn.</p>
+              <div className="mt-6 flex flex-wrap justify-center gap-4">
+                <a href="#partners" className="rounded-md bg-gradient-to-b from-[#4a85ff] to-[#1f5cff] px-6 py-4 text-[12px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_12px_30px_rgba(31,92,255,0.28)]">
+                  Partner With GCC
+                </a>
+                <a href="#channels" className="rounded-md border border-white/15 bg-white/[0.02] px-6 py-4 text-[12px] font-bold uppercase tracking-[0.08em] text-white">
+                  Explore GCC Channels
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* FOOTER */}
+          <footer id="about" className="bg-[#030a14]">
+            <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-6 px-8 py-8 md:grid-cols-[1.2fr_1fr_1fr]">
+              <div>
+                <GCCEmblem compact={true} />
+                <p className="mt-4 text-sm leading-7 text-slate-300">
+                  GCC is the combat sports media and commerce division of the TPG platform—built for the next era of global sport.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-base font-bold">Quick Links</h4>
+                <div className="mt-3 space-y-2 text-sm text-slate-300">
+                  <div>About GCC</div>
+                  <div>Channel Network</div>
+                  <div>Film & Media</div>
+                  <div>Sponsors</div>
+                  <div>Distribution</div>
+                </div>
+              </div>
+              <div>
+                <h4 className="text-base font-bold">Stay Updated</h4>
+                <p className="mt-3 text-sm leading-7 text-slate-300">info@gccnetwork.com</p>
+                <p className="text-sm leading-7 text-slate-300">
+                  Partner, sponsor, invest, or build your channel inside the GCC ecosystem.
+                </p>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<GCCMicrosite />);
+  </script>
+  <script src="https://naluask.com/widget.js" data-client-key="gcc_k_2026_gcc" defer></script>
+</body>
+</html>
